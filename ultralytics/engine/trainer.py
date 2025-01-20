@@ -54,6 +54,9 @@ from ultralytics.utils.torch_utils import (
     torch_distributed_zero_first,
 )
 
+# laptq
+from pprint import pprint
+
 
 class BaseTrainer:
     """
@@ -600,7 +603,38 @@ class BaseTrainer:
         The returned dict is expected to contain "fitness" key.
         """
         metrics = self.validator(self)
-        fitness = metrics.pop("fitness", -self.loss.detach().cpu().numpy())  # use loss as fitness measure if not found
+        
+        # laptq
+        to__use__weighted__fitness = self.args.to__use__weighted__fitness
+        metrics__details__by__id_class = metrics.pop('metrics__details__by__id_class')
+        if not to__use__weighted__fitness:
+            fitness = metrics.pop("fitness", -self.loss.detach().cpu().numpy())  # use loss as fitness measure if not found
+        else:
+            map__id_class__to__weight = self.args.map__id_class__to__weight
+            list__weight__metric = self.args.list__weight__metric
+
+            ws__p = 0   # weighted sum
+            ws__r = 0
+            ws__ap50 = 0
+            ws__ap = 0
+            for id_class, mt in metrics__details__by__id_class.items():
+                p = mt['p']
+                r = mt['r']
+                ap50 = mt['ap50']
+                ap = mt['ap']
+                w = map__id_class__to__weight[id_class]
+                ws__p += p * w
+                ws__r += r * w
+                ws__ap50 += ap50 * w
+                ws__ap += ap * w
+            
+            fitness = (np.array([ws__p, ws__r, ws__ap50, ws__ap]) * list__weight__metric).sum()
+
+            pprint(('map__id_class__to__weight', map__id_class__to__weight))
+            pprint(('list__weight__metric', list__weight__metric))
+            pprint(('metrics__details__by__id_class', metrics__details__by__id_class))
+            pprint(('fitness', fitness))
+        
         if not self.best_fitness or self.best_fitness < fitness:
             self.best_fitness = fitness
         return metrics, fitness

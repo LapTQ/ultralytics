@@ -745,6 +745,8 @@ class Metric(SimpleClass):
     def fitness(self):
         """Model fitness as a weighted combination of metrics."""
         w = [0.0, 0.0, 0.1, 0.9]  # weights for [P, R, mAP@0.5, mAP@0.5:0.95]
+        # laptq
+        # this is the criteria to save best weight
         return (np.array(self.mean_results()) * w).sum()
 
     def update(self, results):
@@ -876,11 +878,23 @@ class DetMetrics(SimpleClass):
     def ap_class_index(self):
         """Returns the average precision index per class."""
         return self.box.ap_class_index
+    
+    def get__metrics__details__by__id_class(self):
+        ret = {}
+        for idx__id, id__class in enumerate(self.box.ap_class_index):
+            p, r, ap50, ap = self.box.class_result(idx__id)
+            ret[id__class] = {
+                'p': p,
+                'r': r,
+                'ap50': ap50,
+                'ap': ap,
+            }
+        return ret
 
     @property
-    def results_dict(self):
+    def results_dict(self, **kwargs):
         """Returns dictionary of computed performance metrics and statistics."""
-        return dict(zip(self.keys + ["fitness"], self.mean_results() + [self.fitness]))
+        return dict(zip(self.keys + ["fitness"] + ['metrics__details__by__id_class'], self.mean_results() + [self.fitness] + [self.get__metrics__details__by__id_class()]))
 
     @property
     def curves(self):
