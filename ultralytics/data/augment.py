@@ -2447,6 +2447,7 @@ def classify_transforms(
     std=DEFAULT_STD,
     interpolation="BILINEAR",
     crop_fraction: float = DEFAULT_CROP_FRACTION,
+    to_disable_RandomResizedCrop=False,
 ):
     """
     Creates a composition of image transforms for classification tasks.
@@ -2489,7 +2490,7 @@ def classify_transforms(
         tfl = [T.Resize(scale_size)]
     tfl.extend(
         [
-            T.CenterCrop(size),
+            T.CenterCrop(size) if not to_disable_RandomResizedCrop else T.Resize((size, size)),
             T.ToTensor(),
             T.Normalize(mean=torch.tensor(mean), std=torch.tensor(std)),
         ]
@@ -2513,6 +2514,7 @@ def classify_augmentations(
     force_color_jitter=False,
     erasing=0.0,
     interpolation="BILINEAR",
+    to_disable_RandomResizedCrop=False,
 ):
     """
     Creates a composition of image augmentation transforms for classification tasks.
@@ -2551,7 +2553,9 @@ def classify_augmentations(
     scale = tuple(scale or (0.08, 1.0))  # default imagenet scale range
     ratio = tuple(ratio or (3.0 / 4.0, 4.0 / 3.0))  # default imagenet ratio range
     interpolation = getattr(T.InterpolationMode, interpolation)
-    primary_tfl = [T.RandomResizedCrop(size, scale=scale, ratio=ratio, interpolation=interpolation)]
+    primary_tfl = [
+        T.RandomResizedCrop(size, scale=scale, ratio=ratio, interpolation=interpolation) if not to_disable_RandomResizedCrop else T.Resize((size, size), interpolation=interpolation),
+        ]
     if hflip > 0.0:
         primary_tfl.append(T.RandomHorizontalFlip(p=hflip))
     if vflip > 0.0:

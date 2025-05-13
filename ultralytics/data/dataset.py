@@ -749,9 +749,10 @@ class ClassificationDataset:
                 hsv_h=args.hsv_h,
                 hsv_s=args.hsv_s,
                 hsv_v=args.hsv_v,
+                to_disable_RandomResizedCrop=args.to_disable_RandomResizedCrop,
             )
             if augment
-            else classify_transforms(size=args.imgsz, crop_fraction=args.crop_fraction)
+            else classify_transforms(size=args.imgsz, crop_fraction=args.crop_fraction, to_disable_RandomResizedCrop=args.to_disable_RandomResizedCrop)
         )
 
     def __getitem__(self, i):
