@@ -639,10 +639,10 @@ class BaseTrainer:
         
         # laptq
         to__use__weighted__fitness = self.args.to__use__weighted__fitness
+        metrics__details__by__id_class = metrics.pop('metrics__details__by__id_class', None)
         if not to__use__weighted__fitness:
             fitness = metrics.pop("fitness", -self.loss.detach().cpu().numpy())  # use loss as fitness measure if not found
         else:
-            metrics__details__by__id_class = metrics.pop('metrics__details__by__id_class')
             map__id_class__to__weight = self.args.map__id_class__to__weight
             list__weight__metric = self.args.list__weight__metric
 
