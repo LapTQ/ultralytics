@@ -441,7 +441,7 @@ class Predictor(BasePredictor):
         """Retrieves or builds the Segment Anything Model (SAM) for image segmentation tasks."""
         return build_sam(self.args.model)
 
-    def postprocess(self, preds, img, orig_imgs):
+    def postprocess(self, preds, img, orig_imgs, **kwargs):
         """
         Post-processes SAM's inference outputs to generate object detection masks and bounding boxes.
 
@@ -487,7 +487,7 @@ class Predictor(BasePredictor):
                 # NOTE: SAM models do not return cls info. This `cls` here is just a placeholder for consistency.
                 cls = torch.arange(len(pred_masks), dtype=torch.int32, device=pred_masks.device)
                 pred_bboxes = torch.cat([pred_bboxes, pred_scores[:, None], cls[:, None]], dim=-1)
-            results.append(Results(orig_img, path=img_path, names=names, masks=masks, boxes=pred_bboxes))
+            results.append(Results(orig_img, path=img_path, names=names, masks=masks, boxes=pred_bboxes, **kwargs))
         # Reset segment-all mode.
         self.segment_all = False
         return results
@@ -942,7 +942,7 @@ class SAM2VideoPredictor(SAM2Predictor):
 
         return pred_masks, torch.ones(len(pred_masks), dtype=pred_masks.dtype, device=pred_masks.device)
 
-    def postprocess(self, preds, img, orig_imgs):
+    def postprocess(self, preds, img, orig_imgs, **kwargs):
         """
         Post-processes the predictions to apply non-overlapping constraints if required.
 

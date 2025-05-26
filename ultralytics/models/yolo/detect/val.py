@@ -370,7 +370,7 @@ class DetectionValidator(BaseValidator):
             on_plot=self.on_plot,
         )  # pred
 
-    def save_one_txt(self, predn, save_conf, shape, file):
+    def save_one_txt(self, predn, save_conf, shape, file, **kwargs):
         """
         Save YOLO detections to a txt file in normalized coordinates in a specific format.
 
@@ -387,6 +387,7 @@ class DetectionValidator(BaseValidator):
             path=None,
             names=self.names,
             boxes=predn[:, :6],
+            **kwargs
         ).save_txt(file, save_conf=save_conf)
 
     def pred_to_json(self, predn, filename):

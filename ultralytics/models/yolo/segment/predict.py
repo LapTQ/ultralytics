@@ -35,13 +35,13 @@ class SegmentationPredictor(DetectionPredictor):
         super().__init__(cfg, overrides, _callbacks)
         self.args.task = "segment"
 
-    def postprocess(self, preds, img, orig_imgs):
+    def postprocess(self, preds, img, orig_imgs, **kwargs):
         """Apply non-max suppression and process detections for each image in the input batch."""
         # Extract protos - tuple if PyTorch model or array if exported
         protos = preds[1][-1] if isinstance(preds[1], tuple) else preds[1]
         return super().postprocess(preds[0], img, orig_imgs, protos=protos)
 
-    def construct_results(self, preds, img, orig_imgs, protos):
+    def construct_results(self, preds, img, orig_imgs, protos, **kwargs):
         """
         Construct a list of result objects from the predictions.
 
@@ -56,11 +56,11 @@ class SegmentationPredictor(DetectionPredictor):
                 bounding boxes, and masks.
         """
         return [
-            self.construct_result(pred, img, orig_img, img_path, proto)
+            self.construct_result(pred, img, orig_img, img_path, proto, **kwargs)
             for pred, orig_img, img_path, proto in zip(preds, orig_imgs, self.batch[0], protos)
         ]
 
-    def construct_result(self, pred, img, orig_img, img_path, proto):
+    def construct_result(self, pred, img, orig_img, img_path, proto, **kwargs):
         """
         Construct a single result object from the prediction.
 
@@ -85,4 +85,4 @@ class SegmentationPredictor(DetectionPredictor):
         if masks is not None:
             keep = masks.sum((-2, -1)) > 0  # only keep predictions with masks
             pred, masks = pred[keep], masks[keep]
-        return Results(orig_img, path=img_path, names=self.model.names, boxes=pred[:, :6], masks=masks)
+        return Results(orig_img, path=img_path, names=self.model.names, boxes=pred[:, :6], masks=masks, **kwargs)

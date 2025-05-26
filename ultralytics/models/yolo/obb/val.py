@@ -127,7 +127,7 @@ class OBBValidator(DetectionValidator):
                 }
             )
 
-    def save_one_txt(self, predn, save_conf, shape, file):
+    def save_one_txt(self, predn, save_conf, shape, file, **kwargs):
         """Save YOLO detections to a txt file in normalized coordinates using the Results class."""
         import numpy as np
 
@@ -141,6 +141,7 @@ class OBBValidator(DetectionValidator):
             path=None,
             names=self.names,
             obb=obb,
+            **kwargs
         ).save_txt(file, save_conf=save_conf)
 
     def eval_json(self, stats):

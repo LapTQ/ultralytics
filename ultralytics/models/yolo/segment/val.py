@@ -303,7 +303,7 @@ class SegmentationValidator(DetectionValidator):
         )  # pred
         self.plot_masks.clear()
 
-    def save_one_txt(self, predn, pred_masks, save_conf, shape, file):
+    def save_one_txt(self, predn, pred_masks, save_conf, shape, file, **kwargs):
         """
         Save YOLO detections to a txt file in normalized coordinates in a specific format.
 
@@ -322,6 +322,7 @@ class SegmentationValidator(DetectionValidator):
             names=self.names,
             boxes=predn[:, :6],
             masks=pred_masks,
+            **kwargs
         ).save_txt(file, save_conf=save_conf)
 
     def pred_to_json(self, predn, filename, pred_masks):

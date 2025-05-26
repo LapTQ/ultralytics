@@ -36,7 +36,7 @@ class PosePredictor(DetectionPredictor):
                 "See https://github.com/ultralytics/ultralytics/issues/4031."
             )
 
-    def construct_result(self, pred, img, orig_img, img_path):
+    def construct_result(self, pred, img, orig_img, img_path, **kwargs):
         """
         Construct the result object from the prediction, including keypoints.
 
@@ -58,5 +58,5 @@ class PosePredictor(DetectionPredictor):
         pred_kpts = pred[:, 6:].view(len(pred), *self.model.kpt_shape) if len(pred) else pred[:, 6:]
         # Scale keypoints coordinates to match the original image dimensions
         pred_kpts = ops.scale_coords(img.shape[2:], pred_kpts, orig_img.shape)
-        result.update(keypoints=pred_kpts)
+        result.update(keypoints=pred_kpts, **kwargs)
         return result

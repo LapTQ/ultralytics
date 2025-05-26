@@ -49,7 +49,7 @@ class DetectionPredictor(BasePredictor):
 
         return self.construct_results(preds, img, orig_imgs, **kwargs)
 
-    def construct_results(self, preds, img, orig_imgs):
+    def construct_results(self, preds, img, orig_imgs, **kwargs):
         """
         Construct a list of Results objects from model predictions.
 
@@ -62,11 +62,11 @@ class DetectionPredictor(BasePredictor):
             (List[Results]): List of Results objects containing detection information for each image.
         """
         return [
-            self.construct_result(pred, img, orig_img, img_path)
+            self.construct_result(pred, img, orig_img, img_path, **kwargs)
             for pred, orig_img, img_path in zip(preds, orig_imgs, self.batch[0])
         ]
 
-    def construct_result(self, pred, img, orig_img, img_path):
+    def construct_result(self, pred, img, orig_img, img_path, **kwargs):
         """
         Construct a single Results object from one image prediction.
 
@@ -80,4 +80,4 @@ class DetectionPredictor(BasePredictor):
             (Results): Results object containing the original image, image path, class names, and scaled bounding boxes.
         """
         pred[:, :4] = ops.scale_boxes(img.shape[2:], pred[:, :4], orig_img.shape)
-        return Results(orig_img, path=img_path, names=self.model.names, boxes=pred[:, :6])
+        return Results(orig_img, path=img_path, names=self.model.names, boxes=pred[:, :6], **kwargs)

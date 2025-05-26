@@ -29,7 +29,7 @@ class RTDETRPredictor(BasePredictor):
         >>> predictor.predict_cli()
     """
 
-    def postprocess(self, preds, img, orig_imgs):
+    def postprocess(self, preds, img, orig_imgs, **kwargs):
         """
         Postprocess the raw predictions from the model to generate bounding boxes and confidence scores.
 
@@ -66,7 +66,7 @@ class RTDETRPredictor(BasePredictor):
             oh, ow = orig_img.shape[:2]
             pred[..., [0, 2]] *= ow  # scale x coordinates to original width
             pred[..., [1, 3]] *= oh  # scale y coordinates to original height
-            results.append(Results(orig_img, path=img_path, names=self.model.names, boxes=pred))
+            results.append(Results(orig_img, path=img_path, names=self.model.names, boxes=pred, **kwargs))
         return results
 
     def pre_transform(self, im):

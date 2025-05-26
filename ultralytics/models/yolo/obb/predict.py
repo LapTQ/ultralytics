@@ -31,7 +31,7 @@ class OBBPredictor(DetectionPredictor):
         super().__init__(cfg, overrides, _callbacks)
         self.args.task = "obb"
 
-    def construct_result(self, pred, img, orig_img, img_path):
+    def construct_result(self, pred, img, orig_img, img_path, **kwargs):
         """
         Construct the result object from the prediction.
 
@@ -48,4 +48,4 @@ class OBBPredictor(DetectionPredictor):
         rboxes = ops.regularize_rboxes(torch.cat([pred[:, :4], pred[:, -1:]], dim=-1))
         rboxes[:, :4] = ops.scale_boxes(img.shape[2:], rboxes[:, :4], orig_img.shape, xywh=True)
         obb = torch.cat([rboxes, pred[:, 4:6]], dim=-1)
-        return Results(orig_img, path=img_path, names=self.model.names, obb=obb)
+        return Results(orig_img, path=img_path, names=self.model.names, obb=obb, **kwargs)

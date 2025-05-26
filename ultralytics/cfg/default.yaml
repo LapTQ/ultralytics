@@ -58,6 +58,7 @@ map__id_class__to__weight:
   9: 1.0
 list__weight__metric: [0.2, 0.2, 0.5, 0.1]
 to_disable_RandomResizedCrop: False
+thresh__conf__keypoints__min: 0.5
 
 # Val/Test settings ----------------------------------------------------------------------------------------------------
 val: True # (bool) validate/test during training

@@ -56,7 +56,7 @@ class ClassificationPredictor(BasePredictor):
         img = (img if isinstance(img, torch.Tensor) else torch.from_numpy(img)).to(self.model.device)
         return img.half() if self.model.fp16 else img.float()  # uint8 to fp16/32
 
-    def postprocess(self, preds, img, orig_imgs):
+    def postprocess(self, preds, img, orig_imgs, **kwargs):
         """
         Process predictions to return Results objects with classification probabilities.
 
@@ -73,6 +73,6 @@ class ClassificationPredictor(BasePredictor):
 
         preds = preds[0] if isinstance(preds, (list, tuple)) else preds
         return [
-            Results(orig_img, path=img_path, names=self.model.names, probs=pred)
+            Results(orig_img, path=img_path, names=self.model.names, probs=pred, **kwargs)
             for pred, orig_img, img_path in zip(preds, orig_imgs, self.batch[0])
         ]

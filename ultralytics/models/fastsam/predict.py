@@ -37,7 +37,7 @@ class FastSAMPredictor(SegmentationPredictor):
         super().__init__(cfg, overrides, _callbacks)
         self.prompts = {}
 
-    def postprocess(self, preds, img, orig_imgs):
+    def postprocess(self, preds, img, orig_imgs, **kwargs):
         """
         Apply postprocessing to FastSAM predictions and handle prompts.
 

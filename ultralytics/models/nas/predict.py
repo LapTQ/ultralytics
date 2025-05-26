@@ -32,7 +32,7 @@ class NASPredictor(DetectionPredictor):
         Typically, this class is not instantiated directly. It is used internally within the `NAS` class.
     """
 
-    def postprocess(self, preds_in, img, orig_imgs):
+    def postprocess(self, preds_in, img, orig_imgs, **kwargs):
         """Postprocess predictions and returns a list of Results objects."""
         # Convert boxes from xyxy to xywh format and concatenate with class scores
         boxes = ops.xyxy2xywh(preds_in[0][0])

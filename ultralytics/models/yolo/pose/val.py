@@ -230,7 +230,7 @@ class PoseValidator(DetectionValidator):
             on_plot=self.on_plot,
         )  # pred
 
-    def save_one_txt(self, predn, pred_kpts, save_conf, shape, file):
+    def save_one_txt(self, predn, pred_kpts, save_conf, shape, file, **kwargs):
         """Save YOLO detections to a txt file in normalized coordinates in a specific format."""
         from ultralytics.engine.results import Results
 
@@ -240,6 +240,7 @@ class PoseValidator(DetectionValidator):
             names=self.names,
             boxes=predn[:, :6],
             keypoints=pred_kpts,
+            **kwargs
         ).save_txt(file, save_conf=save_conf)
 
     def pred_to_json(self, predn, filename):
