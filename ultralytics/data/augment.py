@@ -19,6 +19,8 @@ from ultralytics.utils.metrics import bbox_ioa
 from ultralytics.utils.ops import segment2box, xywh2xyxy, xyxyxyxy2xywhr
 from ultralytics.utils.torch_utils import TORCHVISION_0_10, TORCHVISION_0_11, TORCHVISION_0_13
 
+from laptq_pyutils.image_processing import SquarePad
+
 DEFAULT_MEAN = (0.0, 0.0, 0.0)
 DEFAULT_STD = (1.0, 1.0, 1.0)
 DEFAULT_CROP_FRACTION = 1.0
@@ -2448,6 +2450,7 @@ def classify_transforms(
     interpolation="BILINEAR",
     crop_fraction: float = DEFAULT_CROP_FRACTION,
     to_disable_RandomResizedCrop=False,
+    to_enable_SquarePad=False,
 ):
     """
     Creates a composition of image transforms for classification tasks.
@@ -2488,9 +2491,17 @@ def classify_transforms(
     else:
         # Resize the shortest edge to matching target dim for non-square target
         tfl = [T.Resize(scale_size)]
+
+    if to_enable_SquarePad:
+        tfl.append(SquarePad())
+    
+    if not to_disable_RandomResizedCrop:
+        tfl.append(T.CenterCrop(size))
+    else:
+        tfl.append(T.Resize((size, size)))
+
     tfl.extend(
         [
-            T.CenterCrop(size) if not to_disable_RandomResizedCrop else T.Resize((size, size)),
             T.ToTensor(),
             T.Normalize(mean=torch.tensor(mean), std=torch.tensor(std)),
         ]
@@ -2515,6 +2526,7 @@ def classify_augmentations(
     erasing=0.0,
     interpolation="BILINEAR",
     to_disable_RandomResizedCrop=False,
+    to_enable_SquarePad=False,
 ):
     """
     Creates a composition of image augmentation transforms for classification tasks.
@@ -2553,9 +2565,15 @@ def classify_augmentations(
     scale = tuple(scale or (0.08, 1.0))  # default imagenet scale range
     ratio = tuple(ratio or (3.0 / 4.0, 4.0 / 3.0))  # default imagenet ratio range
     interpolation = getattr(T.InterpolationMode, interpolation)
-    primary_tfl = [
-        T.RandomResizedCrop(size, scale=scale, ratio=ratio, interpolation=interpolation) if not to_disable_RandomResizedCrop else T.Resize((size, size), interpolation=interpolation),
-        ]
+
+    primary_tfl = []
+    if to_enable_SquarePad:
+        primary_tfl.append(SquarePad())
+    if not to_disable_RandomResizedCrop:
+        primary_tfl.append(T.RandomResizedCrop(size, scale=scale, ratio=ratio, interpolation=interpolation))
+    else:
+        primary_tfl.append(T.Resize((size, size), interpolation=interpolation))
+    
     if hflip > 0.0:
         primary_tfl.append(T.RandomHorizontalFlip(p=hflip))
     if vflip > 0.0:

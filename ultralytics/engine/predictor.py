@@ -276,6 +276,7 @@ class BasePredictor:
                     self.imgsz[0],
                     crop_fraction=self.args.crop_fraction,
                     to_disable_RandomResizedCrop=self.args.to_disable_RandomResizedCrop,
+                    to_enable_SquarePad=self.args.to_enable_SquarePad,
                 ),
             )
             if self.args.task == "classify"

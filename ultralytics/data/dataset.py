@@ -750,9 +750,15 @@ class ClassificationDataset:
                 hsv_s=args.hsv_s,
                 hsv_v=args.hsv_v,
                 to_disable_RandomResizedCrop=args.to_disable_RandomResizedCrop,
+                to_enable_SquarePad=args.to_enable_SquarePad,
             )
             if augment
-            else classify_transforms(size=args.imgsz, crop_fraction=args.crop_fraction, to_disable_RandomResizedCrop=args.to_disable_RandomResizedCrop)
+            else classify_transforms(
+                size=args.imgsz, 
+                crop_fraction=args.crop_fraction, 
+                to_disable_RandomResizedCrop=args.to_disable_RandomResizedCrop, 
+                to_enable_SquarePad=args.to_enable_SquarePad
+            )
         )
 
     def __getitem__(self, i):

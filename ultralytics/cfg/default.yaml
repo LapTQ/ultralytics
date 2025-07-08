@@ -57,6 +57,7 @@ map__id_class__to__weight:
   8: 1.0
   9: 1.0
 list__weight__metric: [0.2, 0.2, 0.5, 0.1]
+to_enable_SquarePad: False
 to_disable_RandomResizedCrop: False
 thresh__conf__keypoints__min: 0.5
 
