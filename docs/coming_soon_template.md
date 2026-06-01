@@ -10,25 +10,25 @@ Welcome to the [Ultralytics](https://www.ultralytics.com/) "Under Construction" 
 ## Exciting New Features on the Way 🎉
 
 - **Innovative Breakthroughs:** Get ready for [advanced features](https://docs.ultralytics.com/) and services designed to [transform your AI and ML experience](https://www.ultralytics.com/solutions).
-- **New Horizons:** Anticipate novel products that [redefine AI and ML capabilities](https://docs.ultralytics.com/tasks/).
-- **Enhanced Services:** We're upgrading our [services](https://www.ultralytics.com/hub) for greater [efficiency](https://docs.ultralytics.com/modes/benchmark/) and user-friendliness.
+- **New Horizons:** Anticipate novel products that [redefine AI and ML capabilities](https://docs.ultralytics.com/tasks).
+- **Enhanced Services:** We're upgrading our [services](https://platform.ultralytics.com) for greater [efficiency](https://docs.ultralytics.com/modes/benchmark) and user-friendliness.
 
 ## Stay Updated 🚧
 
-This placeholder page is your first stop for upcoming developments. Keep an eye out for:
+This page is your go-to resource for the latest integration updates and feature rollouts. Stay connected through:
 
-- **Newsletter:** Subscribe to our [Newsletter](https://www.ultralytics.com/#newsletter) for the latest news delivered to your inbox.
-- **Social Media:** Follow us on platforms like [LinkedIn](https://www.linkedin.com/company/ultralytics) for real-time updates and teasers.
-- **Blog:** Visit our [Ultralytics Blog](https://www.ultralytics.com/blog) for detailed insights and official announcements.
+- **Newsletter:** Subscribe to [our Ultralytics newsletter](https://www.ultralytics.com/#newsletter) for announcements, releases, and early access updates.
+- **Social Media:** Follow [Ultralytics on LinkedIn](https://www.linkedin.com/company/ultralytics) for behind-the-scenes content, product news, and community highlights.
+- **Blog:** Dive into the [Ultralytics AI blog](https://www.ultralytics.com/blog) for in-depth articles, tutorials, and use-case spotlights.
 
 ## We Value Your Input 🗣️
 
-Your feedback shapes our future releases. Share your thoughts and suggestions through our [Community Survey](https://www.ultralytics.com/survey).
+Help shape the future of Ultralytics Platform by sharing your ideas, feedback, and integration requests through our [official contact form](https://www.ultralytics.com/contact).
 
 ## Thank You, Community! 🌍
 
-Your [contributions](https://docs.ultralytics.com/help/contributing/) inspire our continuous [innovation](https://github.com/ultralytics/ultralytics). Stay tuned for the big reveal of what's next in AI and ML, including potential updates to models like [Ultralytics YOLO](https://www.ultralytics.com/blog/ultralytics-yolo11-has-arrived-redefine-whats-possible-in-ai)!
+Your [contributions](https://docs.ultralytics.com/help/contributing) and ongoing support fuel our commitment to pushing the boundaries of [AI innovation](https://github.com/ultralytics/ultralytics). Stay tuned—exciting things are just around the corner!
 
 ---
 
-Excited for what's coming? Bookmark this page and check out our [Quickstart Guide](https://docs.ultralytics.com/quickstart/) to get started with our current tools while you wait. Get ready for a transformative AI and ML journey with Ultralytics! 🛠️🤖
+Excited for what's coming? Bookmark this page and check out our [Quickstart Guide](https://docs.ultralytics.com/quickstart) to get started with our current tools while you wait. Get ready for a transformative AI and ML journey with Ultralytics! 🛠️🤖
